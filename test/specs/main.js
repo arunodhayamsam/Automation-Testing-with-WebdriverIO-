@@ -14,7 +14,11 @@ async function sendResultsToSlack(message, progressMessage, snapshotPath) {
     // You'll need to implement this function using Slack API
     // Here's a basic example using webhook URL:
 
-    const slackWebhookUrl = 'Insert your Slack webhook url';
+    const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
+
+    if (!slackWebhookUrl) {
+        return;
+    }
 
     const axios = require('axios');
 
@@ -85,13 +89,13 @@ describe("SauceDemo Automation Test", () => {
             await browser.pause(1000); // Added a short pause
 
             // View first item details
-            await $("#item_5_title_link > div").click();
+            await $("#item_4_title_link > div").click();
             await browser.pause(2000); // Added a short pause
             await sendResultsToSlack("Viewed first item details");
             await browser.pause(3000); // Added a short pause
 
-            // Wait for item details page to load
-            await browser.waitUntil(async () => (await browser.getUrl()) === 'https://www.saucedemo.com/inventory-item.html?id=5');
+            // Wait for the item details page to be ready
+            await $("#add-to-cart").waitForDisplayed();
             await browser.pause(4000); // Added a short pause
 
             // Add first item to cart

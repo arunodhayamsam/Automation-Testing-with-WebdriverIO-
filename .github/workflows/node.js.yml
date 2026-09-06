@@ -20,6 +20,12 @@ jobs:
       with:
         node-version: '22.x'
         cache: 'npm'
+
+    - name: Setup a chrome browser    
+      uses: browser-actions/setup-chrome@v2    
+
     - run: npm install -f
+
     - run: npm install @wdio/cli
+
     - run: npm run wdio
